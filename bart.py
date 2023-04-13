@@ -61,7 +61,7 @@ if __name__ == '__main__':
         ref_loss = -args.lam_sim * cosine.mean()
 
         inputs_embeds = (outputs.logits @ embeddings[None, :, :])
-        pred = victim_model(inputs_embeds=inputs_embeds).logits
+        pred = victim_model(inputs_embeds=inputs_embeds, decoder_inputs_embeds=inputs_embeds).logits
         top_preds = pred.sort(descending=True)[1]
         label = batch['labels']
         correct = (top_preds[:, 0] == label).long()
