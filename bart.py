@@ -28,8 +28,6 @@ if __name__ == '__main__':
         help="CW loss margin")
     parser.add_argument("--result_folder", default="result/", type=str,
         help="folder for loading trained models")
-    parser.add_argument("--finetune", default=False, type=bool_flag,
-        help="load finetuned model")
     
     args = parser.parse_args()
 
@@ -41,7 +39,7 @@ if __name__ == '__main__':
     victim_model = AutoModelForSequenceClassification.from_pretrained(args.model,num_labels=2).cuda()
     embeddings = victim_model.get_input_embeddings()(torch.arange(0, tokenizer.vocab_size).long().cuda())
 
-    suffix = '_finetune' if args.finetune else ''
+    suffix = '_finetune'
     model_checkpoint = os.path.join(args.result_folder, '%s_%s%s.pth' % (args.model.replace('/', '-'), args.dataset, suffix))
     print('Loading checkpoint: %s' % model_checkpoint)
     model.load_state_dict(torch.load(model_checkpoint))
