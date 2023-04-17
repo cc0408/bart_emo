@@ -26,6 +26,8 @@ if __name__ == '__main__':
         help="batch size for gumbel-softmax samples")
     parser.add_argument("--kappa", default=5, type=float,
         help="CW loss margin")
+    parser.add_argument("--result_folder", default="result/", type=str,
+        help="folder for loading trained models")
     
     args = parser.parse_args()
 
@@ -36,6 +38,11 @@ if __name__ == '__main__':
     ref_embeddings = ref_model.get_input_embeddings()(torch.arange(0, tokenizer.vocab_size).long().to(device))
     victim_model = AutoModelForSequenceClassification.from_pretrained(args.model,num_labels=2).cuda()
     embeddings = victim_model.get_input_embeddings()(torch.arange(0, tokenizer.vocab_size).long().cuda())
+
+    suffix = '_finetune' if args.finetune else ''
+    model_checkpoint = os.path.join(args.result_folder, '%s_%s%s.pth' % (args.model.replace('/', '-'), args.dataset, suffix))
+    print('Loading checkpoint: %s' % model_checkpoint)
+    model.load_state_dict(torch.load(model_checkpoint))
 
     raw_dataset = load_dataset("glue", 'sst2')
     #preprocess_function = lambda examples: tokenizer(examples['sentence'], examples['label'], max_length=256, truncation=True)
