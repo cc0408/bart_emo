@@ -82,9 +82,10 @@ if __name__ == '__main__':
         loss = ref_loss + adv_loss
         if idx % 100 ==0:
             print(loss)
-        optimizer.zero_grad()
+        
         loss.backward(retain_graph=True)
             
         optimizer.step()
+        optimizer.zero_grad()
         
     #print(torch.LongTensor(batch['input_ids']))
