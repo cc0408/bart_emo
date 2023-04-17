@@ -28,6 +28,9 @@ if __name__ == '__main__':
         help="CW loss margin")
     parser.add_argument("--result_folder", default="result/", type=str,
         help="folder for loading trained models")
+    parser.add_argument("--dataset", default="dbpedia14", type=str,
+        choices=["dbpedia14", "ag_news", "imdb", "yelp", "mnli", "sst2", "sst5"],
+        help="classification dataset to use")
     
     args = parser.parse_args()
 
