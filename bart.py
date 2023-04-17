@@ -45,7 +45,7 @@ if __name__ == '__main__':
     suffix = '_finetune'
     model_checkpoint = os.path.join(args.result_folder, '%s_%s%s.pth' % (args.model.replace('/', '-'), args.dataset, suffix))
     print('Loading checkpoint: %s' % model_checkpoint)
-    model.load_state_dict(torch.load(model_checkpoint))
+    victim_model.load_state_dict(torch.load(model_checkpoint))
 
     raw_dataset = load_dataset("glue", 'sst2')
     #preprocess_function = lambda examples: tokenizer(examples['sentence'], examples['label'], max_length=256, truncation=True)
