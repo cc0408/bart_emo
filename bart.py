@@ -84,7 +84,12 @@ if __name__ == '__main__':
         if idx % 100 ==0:
             print(loss)
         optimizer.zero_grad()
-        loss.backward()
+        # 异常检测开启
+        torch.autograd.set_detect_anomaly(True)
+        # 反向传播时检测是否有异常值，定位code
+        with torch.autograd.detect_anomaly():
+            loss.backward()
+        #loss.backward()
             
         optimizer.step()
         
