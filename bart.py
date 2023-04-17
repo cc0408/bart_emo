@@ -28,6 +28,8 @@ if __name__ == '__main__':
         help="CW loss margin")
     parser.add_argument("--result_folder", default="result/", type=str,
         help="folder for loading trained models")
+    parser.add_argument("--finetune", default=False, type=bool_flag,
+        help="load finetuned model")
     
     args = parser.parse_args()
 
