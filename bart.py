@@ -1,4 +1,5 @@
 import os
+os.environ["CUDA_VISIBLE_DEVICES"] = '0'
 import torch
 from transformers import AutoTokenizer, DataCollatorWithPadding, AutoModelForSequenceClassification, BartForConditionalGeneration, BartForSequenceClassification, AutoModelForCausalLM
 from datasets import load_dataset
