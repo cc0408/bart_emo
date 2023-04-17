@@ -47,7 +47,6 @@ if __name__ == '__main__':
     model_checkpoint = os.path.join(args.result_folder, '%s_%s%s.pth' % (args.model.replace('/', '-'), args.dataset, suffix))
     print('Loading checkpoint: %s' % model_checkpoint)
     victim_model.load_state_dict(torch.load(model_checkpoint))
-    #victim_model.eval()
 
     raw_dataset = load_dataset("glue", 'sst2')
     #preprocess_function = lambda examples: tokenizer(examples['sentence'], examples['label'], max_length=256, truncation=True)
@@ -88,10 +87,8 @@ if __name__ == '__main__':
         torch.autograd.set_detect_anomaly(True)
         # 反向传播时检测是否有异常值，定位code
         with torch.autograd.detect_anomaly():
-            loss.backward()
-        #loss.backward()
+            loss.backward(retain_graph=True)
             
         optimizer.step()
-        
         
     #print(torch.LongTensor(batch['input_ids']))
